@@ -1,6 +1,5 @@
 <template>
   <header class="header">
-    <!-- First row: logo + nav + search + cart -->
     <div class="header__top-row">
       <div class="header__logo">JUJU'S</div>
 
@@ -43,7 +42,6 @@ export default defineComponent({
 </script>
 
 <style scoped>
-/* === Desktop-First Styles === */
 .header {
   background-color: #01013f;
   color: #ea82b9;
