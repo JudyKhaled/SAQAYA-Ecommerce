@@ -2,8 +2,12 @@
   <div class="app">
     <BaseHeader @toggle-cart="toggleCart" />
     <main class="main">
-      <router-view />
-      <Cart :isOpen="cartOpen" @toggle-cart="toggleCart" />
+      <router-view
+        :cartItems="cartItems"
+        @add-to-cart="addToCart"
+        @remove-from-cart="removeFromCart"
+      />
+      <Cart :isOpen="cartOpen" :cartItems="cartItems" @close="toggleCart" />
     </main>
     <BaseFooter />
   </div>
@@ -15,6 +19,13 @@ import BaseHeader from "./components/Header.vue";
 import BaseFooter from "./components/Footer.vue";
 import Cart from "./components/Cart.vue";
 
+interface Product {
+  id: number;
+  title: string;
+  price: number;
+  image: string;
+}
+
 export default defineComponent({
   name: "App",
   components: {
@@ -25,37 +36,35 @@ export default defineComponent({
   data() {
     return {
       cartOpen: false,
+      cartItems: [] as Product[],
     };
+  },
+  created() {
+    const stored = localStorage.getItem("my-cart");
+    if (stored) {
+      this.cartItems = JSON.parse(stored);
+    }
+  },
+  watch: {
+    cartItems: {
+      handler(newCart) {
+        localStorage.setItem("my-cart", JSON.stringify(newCart));
+      },
+      deep: true,
+    },
   },
   methods: {
     toggleCart() {
       this.cartOpen = !this.cartOpen;
     },
+    addToCart(product: Product) {
+      if (!this.cartItems.find((p) => p.id === product.id)) {
+        this.cartItems.push(product);
+      }
+    },
+    removeFromCart(productId: number) {
+      this.cartItems = this.cartItems.filter((item) => item.id !== productId);
+    },
   },
 });
 </script>
-
-<style>
-html,
-body,
-#app {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-}
-
-.app {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
-.main {
-  flex: 1;
-}
-
-router-view {
-  flex: 1;
-  display: block;
-}
-</style>

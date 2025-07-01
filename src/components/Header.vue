@@ -43,10 +43,14 @@ export default defineComponent({
 
 <style scoped>
 .header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
   background-color: #01013f;
   color: #ea82b9;
   padding: 10px 20px;
-  width: 100%;
+  z-index: 1001;
   box-sizing: border-box;
 }
 
@@ -88,8 +92,8 @@ export default defineComponent({
 
 .header__search {
   width: 200px;
-  padding: 6px 12px;
-  border-radius: 4px;
+  padding: 9px 12px;
+  border-radius: 15px;
   border: none;
   outline: none;
   font-size: 0.9rem;

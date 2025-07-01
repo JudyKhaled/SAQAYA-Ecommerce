@@ -63,7 +63,7 @@ export default defineComponent({
   top: 90px;
   right: 0;
   width: 300px;
-  height: calc(80% - 44px);
+  height: 90vh;
   background-color: #01013f;
   color: #fff;
   z-index: 1000;
@@ -160,15 +160,11 @@ export default defineComponent({
 
 .cart__checkout {
   width: 100%;
-  background: #28a745;
+  background: #454545;
   color: white;
   border: none;
   padding: 0.6rem;
   border-radius: 5px;
   cursor: pointer;
-}
-
-.cart__checkout:hover {
-  background: #218838;
 }
 </style>

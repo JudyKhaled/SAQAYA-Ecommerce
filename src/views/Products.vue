@@ -22,10 +22,18 @@
 
         <div class="products-view__actions">
           <button
+            v-if="!isInCart(product.id)"
             class="products-view__add-btn"
-            @click="handleAddToCart(product)"
+            @click="addToCart(product)"
           >
             Add to Cart
+          </button>
+          <button
+            v-else
+            class="products-view__remove-btn"
+            @click="removeFromCart(product.id)"
+          >
+            Remove from Cart
           </button>
         </div>
       </div>
@@ -34,7 +42,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref } from "vue";
+import { defineComponent, ref, onMounted } from "vue";
 
 interface Product {
   id: number;
@@ -45,34 +53,37 @@ interface Product {
 
 export default defineComponent({
   name: "ProductsView",
-  setup() {
+  props: {
+    cartItems: {
+      type: Array as () => Product[],
+      required: true,
+    },
+  },
+  emits: ["add-to-cart", "remove-from-cart"],
+  setup(props, { emit }) {
     const products = ref<Product[]>([]);
-    const loading = ref<boolean>(true);
+    const loading = ref(true);
 
     const fetchProducts = async () => {
-      try {
-        const res = await fetch("https://fakestoreapi.com/products");
-        const data = await res.json();
-        products.value = data;
-      } catch (error) {
-        console.error("Failed to fetch products:", error);
-      } finally {
-        loading.value = false;
-      }
+      const res = await fetch("https://fakestoreapi.com/products");
+      products.value = await res.json();
+      loading.value = false;
     };
 
-    const handleAddToCart = (product: Product) => {
-      console.log("Added to cart:", product);
-    };
+    const isInCart = (id: number) =>
+      props.cartItems.some((item) => item.id === id);
 
-    onMounted(() => {
-      fetchProducts();
-    });
+    const addToCart = (product: Product) => emit("add-to-cart", product);
+    const removeFromCart = (id: number) => emit("remove-from-cart", id);
+
+    onMounted(fetchProducts);
 
     return {
       products,
       loading,
-      handleAddToCart,
+      isInCart,
+      addToCart,
+      removeFromCart,
     };
   },
 });
@@ -81,6 +92,17 @@ export default defineComponent({
 <style scoped>
 .products-view {
   padding: 2rem;
+}
+
+.products-view__toggle-cart {
+  background: #ea82b9;
+  border: none;
+  color: white;
+  font-weight: bold;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-bottom: 1rem;
 }
 
 .products-view__grid {
@@ -127,13 +149,28 @@ export default defineComponent({
   padding-top: 1rem;
 }
 
-.products-view__add-btn {
-  background-color: #01013f;
-  color: white;
+.products-view__add-btn,
+.products-view__remove-btn {
+  background-color: #0d0c4f;
+  color: rgb(209, 199, 199);
   border: none;
   padding: 0.5rem 1.2rem;
-  border-radius: 5px;
+  border-radius: 10px;
   cursor: pointer;
-  font-weight: 500;
+  font-weight: 700;
+  font-size: 0.9rem;
+  height: 2.5rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.products-view__remove-btn {
+  background-color: #444242;
+  color: rgb(243, 235, 235);
+}
+
+.products-view__add-btn:hover,
+.products-view__remove-btn:hover {
+  transform: perspective(400px) translateZ(5px) scale(1.05);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
 }
 </style>
