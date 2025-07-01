@@ -16,7 +16,16 @@
           <img :src="item.image" :alt="item.title" class="cart__item-image" />
           <div class="cart__item-info">
             <h4 class="cart__item-title">{{ item.title }}</h4>
-            <p class="cart__item-price">${{ item.price.toFixed(2) }}</p>
+            <p class="cart__item-price">
+              ${{ item.price.toFixed(2) }} × {{ item.quantity }}
+            </p>
+
+            <!-- ✅ Quantity Controls -->
+            <div class="cart__qty-controls">
+              <button @click="$emit('remove-from-cart', item.id)">−</button>
+              <span>{{ item.quantity }}</span>
+              <button @click="$emit('add-to-cart', item)">+</button>
+            </div>
           </div>
         </li>
       </ul>
@@ -33,7 +42,6 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
-import "../assets/styles/main.css";
 
 export default defineComponent({
   name: "MyCart",
@@ -44,14 +52,23 @@ export default defineComponent({
     },
     cartItems: {
       type: Array as PropType<
-        Array<{ title: string; price: number; image: string }>
+        Array<{
+          id: number;
+          title: string;
+          price: number;
+          image: string;
+          quantity: number;
+        }>
       >,
       default: () => [],
     },
   },
   computed: {
     totalPrice(): number {
-      return this.cartItems.reduce((sum, item) => sum + item.price, 0);
+      return this.cartItems.reduce(
+        (sum, item) => sum + item.price * item.quantity,
+        0
+      );
     },
   },
 });
@@ -60,10 +77,10 @@ export default defineComponent({
 <style scoped>
 .cart {
   position: fixed;
-  top: 90px;
+  top: 70px;
   right: 0;
   width: 300px;
-  height: 90vh;
+  height: calc(100vh - 70px);
   background-color: #01013f;
   color: #fff;
   z-index: 1000;
@@ -145,6 +162,33 @@ export default defineComponent({
 .cart__item-price {
   font-size: 0.85rem;
   color: #ea82b9;
+}
+
+.cart__qty-controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.cart__qty-controls button {
+  background-color: #ea82b9;
+  border: none;
+  color: white;
+  font-size: 1rem;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  cursor: pointer;
+  padding: 0;
+  text-align: center;
+  line-height: 24px;
+}
+
+.cart__qty-controls span {
+  font-weight: bold;
+  min-width: 20px;
+  text-align: center;
 }
 
 .cart__footer {

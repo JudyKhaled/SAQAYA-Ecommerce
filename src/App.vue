@@ -7,7 +7,13 @@
         @add-to-cart="addToCart"
         @remove-from-cart="removeFromCart"
       />
-      <Cart :isOpen="cartOpen" :cartItems="cartItems" @close="toggleCart" />
+      <Cart
+        :isOpen="cartOpen"
+        :cartItems="cartItems"
+        @close="toggleCart"
+        @add-to-cart="addToCart"
+        @remove-from-cart="removeFromCart"
+      />
     </main>
     <BaseFooter />
   </div>
@@ -24,6 +30,7 @@ interface Product {
   title: string;
   price: number;
   image: string;
+  quantity?: number;
 }
 
 export default defineComponent({
@@ -58,13 +65,45 @@ export default defineComponent({
       this.cartOpen = !this.cartOpen;
     },
     addToCart(product: Product) {
-      if (!this.cartItems.find((p) => p.id === product.id)) {
-        this.cartItems.push(product);
+      const existing = this.cartItems.find((p) => p.id === product.id);
+      if (existing) {
+        existing.quantity = (existing.quantity || 1) + 1;
+      } else {
+        this.cartItems.push({ ...product, quantity: 1 });
       }
     },
     removeFromCart(productId: number) {
-      this.cartItems = this.cartItems.filter((item) => item.id !== productId);
+      const index = this.cartItems.findIndex((item) => item.id === productId);
+      if (index !== -1) {
+        const item = this.cartItems[index];
+        if ((item.quantity || 1) > 1) {
+          item.quantity!--;
+        } else {
+          this.cartItems.splice(index, 1);
+        }
+      }
     },
   },
 });
 </script>
+
+<style>
+html,
+body,
+#app {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main {
+  flex: 1;
+  padding-top: 70px; /* match fixed header height */
+}
+</style>
