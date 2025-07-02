@@ -1,76 +1,133 @@
-<!-- src/components/ProductCard.vue -->
 <template>
-  <div class="product-card">
-    <img :src="image" :alt="title" class="product-card__image" />
-    <h3 class="product-card__title">{{ title }}</h3>
-    <p class="product-card__price">${{ price.toFixed(2) }}</p>
-    <button @click="addToCart" class="product-card__button">Add to Cart</button>
+  <div
+    class="products-view__card"
+    @mouseenter="$emit('hover', product.id)"
+    @mouseleave="$emit('hover', null)"
+    :class="{ 'products-view__card--hovered': hovered }"
+  >
+    <div class="products-view__card-content">
+      <img
+        :src="product.image"
+        :alt="product.title"
+        class="products-view__image"
+      />
+      <div class="products-view__cart-icon-row">
+        <button
+          v-if="!isInCart"
+          class="products-view__add-btn products-view__cart-icon-btn"
+          @click="$emit('add-to-cart', product)"
+          title="Add to Cart"
+        >
+          <i class="fa fa-shopping-cart"></i>
+        </button>
+        <button
+          v-else
+          class="products-view__remove-btn products-view__cart-icon-btn"
+          @click="$emit('remove-from-cart', product.id)"
+          title="Remove from Cart"
+        >
+          <i class="fa fa-trash"></i>
+        </button>
+      </div>
+      <h3 class="products-view__title">{{ product.title }}</h3>
+      <p class="products-view__price">${{ product.price.toFixed(2) }}</p>
+    </div>
   </div>
 </template>
 
-<script>
-export default {
-  name: 'ProductCard',
+<script lang="ts">
+import { defineComponent, PropType } from "vue";
+
+export default defineComponent({
+  name: "ProductCard",
   props: {
-    title: {
-      type: String,
-      required: true
-    },
-    image: {
-      type: String,
-      required: true
-    },
-    price: {
-      type: Number,
-      required: true
-    }
+    product: { type: Object as PropType<any>, required: true },
+    isInCart: { type: Boolean, required: true },
+    hovered: { type: Boolean, required: true },
   },
-  methods: {
-    addToCart() {
-      this.$emit('add-to-cart', {
-        title: this.title,
-        image: this.image,
-        price: this.price
-      });
-    }
-  }
-};
+});
 </script>
 
 <style scoped>
-.product-card {
+.products-view__card,
+.products-view__card--hovered {
   border: 1px solid #ddd;
-  padding: 1rem;
-  border-radius: 8px;
+  padding: 2.5rem 2rem;
+  border-radius: 20px;
   text-align: center;
-  transition: box-shadow 0.3s;
+  transition: box-shadow 0.3s, filter 0.3s;
   background: white;
+  position: relative;
+  width: 420px;
+  min-width: 420px;
+  max-width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  min-height: 450px;
 }
-.product-card:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+.products-view__card--hovered {
+  box-shadow: 0 4px 24px rgba(100, 100, 100, 0.18);
 }
-.product-card__image {
+.products-view__card-content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  position: relative;
+  transition: none;
+}
+.products-view__image {
   width: 100%;
   height: 200px;
   object-fit: contain;
 }
-.product-card__title {
+.products-view__title {
   font-size: 1rem;
   margin: 0.5rem 0;
+  min-height: 2.5em;
+  /* Ensures consistent height regardless of text length */
 }
-.product-card__price {
+.products-view__price {
   font-weight: bold;
   margin-bottom: 0.5rem;
+  color: #333;
+  position: absolute;
+  left: 50%;
+  top: 350px;
+  transform: translateX(-50%);
+  z-index: 2;
+  background: white;
+  padding: 0 0.5em;
 }
-.product-card__button {
-  background: #007bff;
-  color: white;
+.products-view__cart-icon-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 18px 0 0 0;
+  min-height: 40px;
+}
+.products-view__cart-icon-btn {
+  background: none;
+  color: #888;
   border: none;
-  padding: 0.6rem 1.2rem;
-  border-radius: 5px;
+  font-size: 1.7rem;
   cursor: pointer;
+  padding: 0.3rem 0.7rem;
+  border-radius: 50%;
+  box-shadow: none;
+  transition: color 0.2s, transform 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.product-card__button:hover {
-  background: #0056b3;
+.products-view__cart-icon-btn:hover {
+  color: #333;
+  background: none;
+  transform: scale(1.12);
 }
 </style>

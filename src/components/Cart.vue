@@ -20,55 +20,42 @@
               ${{ item.price.toFixed(2) }} × {{ item.quantity }}
             </p>
 
-            <!-- ✅ Quantity Controls -->
             <div class="cart__qty-controls">
-              <button @click="$emit('remove-from-cart', item.id)">−</button>
+              <button @click="removeFromCart(item.id)">−</button>
               <span>{{ item.quantity }}</span>
-              <button @click="$emit('add-to-cart', item)">+</button>
+              <button @click="addToCart(item)">+</button>
             </div>
           </div>
         </li>
       </ul>
 
       <div v-if="cartItems.length > 0" class="cart__footer">
-        <p class="cart__total">Total: ${{ totalPrice.toFixed(2) }}</p>
-        <button class="cart__checkout" @click="$emit('checkout')">
-          Checkout
-        </button>
+        <p class="cart__total">Total: ${{ cartTotal.toFixed(2) }}</p>
+        <button class="cart__checkout" @click="checkout">Checkout</button>
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "vue";
+import { defineComponent } from "vue";
+import { mapGetters, mapActions } from "vuex";
 
 export default defineComponent({
   name: "MyCart",
   props: {
     isOpen: {
-      type: Boolean as PropType<boolean>,
+      type: Boolean,
       required: true,
-    },
-    cartItems: {
-      type: Array as PropType<
-        Array<{
-          id: number;
-          title: string;
-          price: number;
-          image: string;
-          quantity: number;
-        }>
-      >,
-      default: () => [],
     },
   },
   computed: {
-    totalPrice(): number {
-      return this.cartItems.reduce(
-        (sum, item) => sum + item.price * item.quantity,
-        0
-      );
+    ...mapGetters("cartItems", ["cartItems", "cartTotal"]),
+  },
+  methods: {
+    ...mapActions("cartItems", ["addToCart", "removeFromCart"]),
+    checkout() {
+      alert("Checkout not implemented");
     },
   },
 });
