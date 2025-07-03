@@ -21,9 +21,9 @@
             </p>
 
             <div class="cart__qty-controls">
-              <button @click="removeFromCart(item.id)">−</button>
+              <button @click="$emit('remove-from-cart', item.id)">−</button>
               <span>{{ item.quantity }}</span>
-              <button @click="addToCart(item)">+</button>
+              <button @click="$emit('add-to-cart', item)">+</button>
             </div>
           </div>
         </li>
