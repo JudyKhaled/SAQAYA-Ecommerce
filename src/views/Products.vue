@@ -16,6 +16,7 @@
         @add-to-cart="addToCart"
         @remove-from-cart="removeFromCart"
         @hover="hoveredProduct = $event"
+        @click="goToProduct(product)"
       />
     </div>
   </div>
@@ -25,6 +26,7 @@
 import { defineComponent } from "vue";
 import { mapGetters, mapActions } from "vuex";
 import ProductCard from "@/components/ProductCard.vue";
+import ProductDetails from "./ProductDetails.vue";
 
 export default defineComponent({
   name: "ProductsView",
@@ -43,6 +45,11 @@ export default defineComponent({
     ...mapActions("cartItems", ["addToCart", "removeFromCart"]),
     isInCart(id: number) {
       return this.cartItems.some((item: any) => item.id === id);
+    },
+    // eslint-disable-next-line
+    goToProduct(product: any) {
+      this.$store.dispatch("selectedProduct/selectProduct", product);
+      this.$router.push({ name: "ProductDetails", params: { id: product.id } });
     },
   },
   mounted() {
