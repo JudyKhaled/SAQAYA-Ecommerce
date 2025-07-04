@@ -37,28 +37,27 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
-import { mapGetters, mapActions } from "vuex";
+<script setup lang="ts">
+import { computed, defineProps, defineEmits } from "vue";
+import { useCartItemsStore } from "@/store/modules/cartItems";
 
-export default defineComponent({
-  name: "MyCart",
-  props: {
-    isOpen: {
-      type: Boolean,
-      required: true,
-    },
-  },
-  computed: {
-    ...mapGetters("cartItems", ["cartItems", "cartTotal"]),
-  },
-  methods: {
-    ...mapActions("cartItems", ["addToCart", "removeFromCart"]),
-    checkout() {
-      alert("Checkout not implemented");
-    },
-  },
-});
+const props = defineProps<{
+  isOpen: boolean;
+}>();
+
+const emit = defineEmits<{
+  (e: "close"): void;
+  (e: "add-to-cart", product: any): void;
+  (e: "remove-from-cart", id: number): void;
+}>();
+
+const cartStore = useCartItemsStore();
+const cartItems = computed(() => cartStore.cartItems);
+const cartTotal = computed(() => cartStore.cartTotal);
+
+function checkout() {
+  alert("Checkout not implemented");
+}
 </script>
 
 <style scoped>

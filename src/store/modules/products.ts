@@ -1,4 +1,4 @@
-import { Module } from "vuex";
+import { defineStore } from "pinia";
 
 interface Product {
   id: number;
@@ -11,38 +11,28 @@ interface ProductsState {
   loading: boolean;
 }
 
-const products: Module<ProductsState, any> = {
-  namespaced: true,
-  state: () => ({
+export const useProductsStore = defineStore("products", {
+  state: (): ProductsState => ({
     products: [],
     loading: false,
   }),
-  mutations: {
-    SET_PRODUCTS(state, products: Product[]) {
-      state.products = products;
-    },
-    SET_LOADING(state, loading: boolean) {
-      state.loading = loading;
-    },
-  },
-  actions: {
-    async fetchProducts({ commit }) {
-      commit("SET_LOADING", true);
-      try {
-        const res = await fetch("https://fakestoreapi.com/products");
-        const data = await res.json();
-        commit("SET_PRODUCTS", data);
-      } catch (error) {
-        console.error("Failed to fetch products:", error);
-      } finally {
-        commit("SET_LOADING", false);
-      }
-    },
-  },
   getters: {
     products: (state) => state.products,
     loading: (state) => state.loading,
   },
-};
+  actions: {
+    async fetchProducts() {
+      this.loading = true;
+      try {
+        const res = await fetch("https://fakestoreapi.com/products");
+        const data: Product[] = await res.json();
+        this.products = data;
+      } catch (error) {
+        console.error("Failed to fetch products:", error);
+      } finally {
+        this.loading = false;
+      }
+    },
+  },
+});
 
-export default products;

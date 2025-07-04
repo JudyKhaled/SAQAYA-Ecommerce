@@ -6,6 +6,6 @@ module.exports = {
   moduleFileExtensions: ['js', 'jsx', 'json', 'vue', 'ts', 'tsx'],
   transform: {
     '^.+\\.vue$': '@vue/vue3-jest',
-    '^.+\\.[t|j]sx?$': 'babel-jest',
+    '^.+\\.[tj]sx?$': 'babel-jest',
   },
-}
+};

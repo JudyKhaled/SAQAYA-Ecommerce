@@ -28,17 +28,16 @@
   </header>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref } from "vue";
 import "../assets/styles/main.css";
-import { defineComponent, ref } from "vue";
+const searchQuery = ref("");
+</script>
 
-export default defineComponent({
-  name: "BaseHeader",
-  setup() {
-    const searchQuery = ref("");
-    return { searchQuery };
-  },
-});
+<script lang="ts">
+export default {
+  name: "JujusHeader",
+};
 </script>
 
 <style scoped>

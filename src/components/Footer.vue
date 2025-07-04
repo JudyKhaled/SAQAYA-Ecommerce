@@ -5,9 +5,8 @@
       <div class="footer__links">
         <router-link to="/about">About Us</router-link>
         <router-link to="/contact">Contact Us</router-link>
-        <p >Collections</p>
+        <p>Collections</p>
       </div>
-    
       <div class="footer__socials">
         <span>Get social</span>
         <a href="https://twitter.com" target="_blank" rel="noopener">Twitter</a>
@@ -19,12 +18,7 @@
   </footer>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
-
-export default defineComponent({
-  name: "BaseFooter",
-});
+<script setup lang="ts">
 </script>
 
 <style scoped>

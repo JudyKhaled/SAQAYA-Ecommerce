@@ -1,4 +1,4 @@
-import { Module } from "vuex";
+import { defineStore } from "pinia";
 
 interface Product {
   id: number;
@@ -8,34 +8,25 @@ interface Product {
   description: string;
 }
 
-export interface SelectedProductState {
+interface SelectedProductState {
   product: Product | null;
 }
 
-const selectedProduct: Module<SelectedProductState, any> = {
-  namespaced: true,
-  state: () => ({
+export const useSelectedProductStore = defineStore("selectedProduct", {
+  state: (): SelectedProductState => ({
     product: null,
   }),
-  mutations: {
-    SET_SELECTED_PRODUCT(state, product: Product) {
-      state.product = product;
-    },
-    CLEAR_SELECTED_PRODUCT(state) {
-      state.product = null;
-    },
-  },
+
   actions: {
-    selectProduct({ commit }, product: Product) {
-      commit("SET_SELECTED_PRODUCT", product);
+    selectProduct(product: Product) {
+      this.product = product;
     },
-    clearProduct({ commit }) {
-      commit("CLEAR_SELECTED_PRODUCT");
+    clearProduct() {
+      this.product = null;
     },
   },
+
   getters: {
     selectedProduct: (state) => state.product,
   },
-};
-
-export default selectedProduct;
+});

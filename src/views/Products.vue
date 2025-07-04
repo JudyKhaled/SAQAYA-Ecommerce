@@ -13,8 +13,8 @@
         :product="product"
         :isInCart="isInCart(product.id)"
         :hovered="hoveredProduct === product.id"
-        @add-to-cart="addToCart"
-        @remove-from-cart="removeFromCart"
+        @add-to-cart="cartStore.addToCart"
+        @remove-from-cart="cartStore.removeFromCart"
         @hover="hoveredProduct = $event"
         @click="goToProduct(product)"
       />
@@ -22,40 +22,42 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
-import { mapGetters, mapActions } from "vuex";
+<script setup lang="ts">
+import { ref, computed, onMounted } from "vue";
+import { useProductsStore } from "@/store/modules/products";
+import { useCartItemsStore } from "@/store/modules/cartItems";
+import { useSelectedProductStore } from "@/store/modules/selectedProduct";
+import { useRouter } from "vue-router";
 import ProductCard from "@/components/ProductCard.vue";
-import ProductDetails from "./ProductDetails.vue";
 
-export default defineComponent({
-  name: "ProductsView",
-  components: { ProductCard },
-  data() {
-    return {
-      hoveredProduct: null as number | null,
-    };
-  },
-  computed: {
-    ...mapGetters("products", ["products", "loading"]),
-    ...mapGetters("cartItems", ["cartItems"]),
-  },
-  methods: {
-    ...mapActions("products", ["fetchProducts"]),
-    ...mapActions("cartItems", ["addToCart", "removeFromCart"]),
-    isInCart(id: number) {
-      return this.cartItems.some((item: any) => item.id === id);
-    },
-    // eslint-disable-next-line
-    goToProduct(product: any) {
-      this.$store.dispatch("selectedProduct/selectProduct", product);
-      this.$router.push({ name: "ProductDetails", params: { id: product.id } });
-    },
-  },
-  mounted() {
-    this.fetchProducts();
-  },
+const productsStore = useProductsStore();
+const cartStore = useCartItemsStore();
+const selectedProductStore = useSelectedProductStore();
+const router = useRouter();
+const hoveredProduct = ref<number | null>(null);
+
+onMounted(() => {
+  productsStore.fetchProducts();
 });
+
+const isInCart = (id: number) => {
+  return cartStore.cartItems.some((item) => item.id === id);
+};
+
+const goToProduct = (product: any) => {
+  selectedProductStore.selectProduct(product);
+  router.push({ name: "ProductDetails", params: { id: product.id } });
+};
+
+const products = computed(() => productsStore.products);
+const loading = computed(() => productsStore.loading);
+const cartItems = computed(() => cartStore.cartItems);
+</script>
+
+<script lang="ts">
+export default {
+  name: "ProductsView",
+};
 </script>
 
 <style scoped>

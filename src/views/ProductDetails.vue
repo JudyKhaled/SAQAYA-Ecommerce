@@ -8,7 +8,10 @@
     <h2 class="product-details__title">{{ product.title }}</h2>
     <p class="product-details__price">${{ product.price.toFixed(2) }}</p>
     <p class="product-details__description">{{ product.description }}</p>
-    <button @click="addToCart(product)" class="product-details__add-btn">
+    <button
+      @click="cartStore.addToCart({ ...product, quantity: 1 })"
+      class="product-details__add-btn"
+    >
       <i class="fa fa-shopping-cart"></i> Add to Cart
     </button>
   </div>
@@ -17,26 +20,15 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
-import { mapGetters, mapActions } from "vuex";
-import { useRoute } from "vue-router";
+<script setup lang="ts">
+import { computed } from "vue";
+import { useSelectedProductStore } from "@/store/modules/selectedProduct";
+import { useCartItemsStore } from "@/store/modules/cartItems";
 
-export default defineComponent({
-  name: "ProductDetails",
-  computed: {
-    ...mapGetters("selectedProduct", ["selectedProduct"]),
-    product() {
-      return this.selectedProduct;
-    },
-  },
-  methods: {
-    ...mapActions("cartItems", ["addToCart"]),
-  },
-  mounted() {
-    // Optionally, fetch product details if not already set
-  },
-});
+const selectedProductStore = useSelectedProductStore();
+const cartStore = useCartItemsStore();
+
+const product = computed(() => selectedProductStore.selectedProduct);
 </script>
 
 <style scoped>

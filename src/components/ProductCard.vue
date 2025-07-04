@@ -36,17 +36,26 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, PropType } from "vue";
+<script setup lang="ts">
+import { defineProps, defineEmits } from "vue";
 
-export default defineComponent({
-  name: "ProductCard",
-  props: {
-    product: { type: Object as PropType<any>, required: true },
-    isInCart: { type: Boolean, required: true },
-    hovered: { type: Boolean, required: true },
-  },
-});
+const props = defineProps<{
+  product: {
+    id: number;
+    title: string;
+    price: number;
+    image: string;
+  };
+  isInCart: boolean;
+  hovered: boolean;
+}>();
+
+defineEmits([
+  "hover",
+  "view-product",
+  "add-to-cart",
+  "remove-from-cart",
+]);
 </script>
 
 <style scoped>
