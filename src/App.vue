@@ -78,6 +78,6 @@ body,
 
 .main {
   flex: 1;
-  padding-top: 70px; /* match fixed header height */
+  padding-top: 0;
 }
 </style>

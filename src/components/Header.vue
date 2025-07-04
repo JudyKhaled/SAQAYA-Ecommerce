@@ -1,35 +1,39 @@
 <template>
   <header class="header">
-    <div class="header__top-row">
-      <div class="header__logo">JUJU'S</div>
+    <div class="nav-container">
+      <img src="@/assets/imgs/logo.png" alt="Logo" class="logo" />
 
-      <nav class="header__nav">
-        <router-link to="/"><b>Home</b></router-link>
-        <router-link to="/products"><b>Products</b></router-link>
-        <router-link to="/contact"><b>Contact</b></router-link>
+      <nav class="nav-links">
+        <router-link to="/" exact-active-class="active">Home</router-link>
+        <router-link to="/products" exact-active-class="active"
+          >Products</router-link
+        >
+        <router-link to="/contact" exact-active-class="active"
+          >Contact</router-link
+        >
       </nav>
 
-      <div class="header__search-container">
+      <div class="nav-actions">
         <input
           type="text"
-          class="header__search"
           placeholder="Search..."
+          class="search-input"
           v-model="searchQuery"
         />
+        <button
+          @click="$emit('toggle-cart')"
+          class="cart-button"
+          title="Open Cart"
+        >
+          <i class="fa-solid fa-cart-shopping fa-sm"></i>
+        </button>
       </div>
-
-      <button class="header__cart-button" @click="$emit('toggle-cart')">
-        <i
-          class="fa-solid fa-cart-shopping fa-sm"
-          style="color: #ea82b9; font-size: 17px"
-        ></i>
-      </button>
     </div>
   </header>
 </template>
 
 <script lang="ts">
-import "../assets/styles/main.css";
+import "@fortawesome/fontawesome-free/css/all.min.css";
 import { defineComponent, ref } from "vue";
 
 export default defineComponent({
@@ -42,102 +46,102 @@ export default defineComponent({
 </script>
 
 <style scoped>
+@font-face {
+  font-family: "Bubble Rainbow";
+  src: url("@/assets/fonts/Bubble Rainbow.ttf") format("truetype");
+}
+
+.header,
+.header *:not(i):not(.fa):not(.fa-solid) {
+  font-family: "Bubble Rainbow", cursive, sans-serif;
+}
+
 .header {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background-color: #01013f;
-  color: #ea82b9;
-  padding: 10px 20px;
-  z-index: 1001;
-  box-sizing: border-box;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 95%;
+  background: #000;
+  border-radius: 999px;
+  padding: 20px 40px;
+  display: flex;
+  justify-content: center;
+  z-index: 999;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  height: 6rem;
 }
 
-.header__top-row {
+.nav-container {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   width: 100%;
-  max-width: 1800px;
-  margin: 0 auto;
-  gap: 1rem;
+  max-width: 1400px;
+  justify-content: space-between;
 }
 
-.header__logo {
-  font-weight: bold;
-  font-size: 1.2rem;
-  /* margin-left: -20rem; */
+.logo {
+  height: 50px;
+  border-radius: 999px;
+  background: white;
+  padding: 6px;
 }
 
-.header__nav {
+.nav-links {
   display: flex;
-  gap: 1rem;
-  flex-shrink: 0;
+  gap: 6rem;
+  padding: 10px 24px;
+  margin-left: 2rem;
 }
 
-.header__nav a {
-  color: #ea82b9;
+.nav-links a {
+  color: white;
   text-decoration: none;
   font-weight: bold;
+  font-size: 2rem;
 }
 
-.header__nav a:hover {
-  text-decoration: underline;
+.nav-links a.active {
+  color: #ea82b9;
 }
 
-.header__search-container {
-  flex-shrink: 0;
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 12px;
+  border-radius: 999px;
 }
 
-.header__search {
-  width: 200px;
-  padding: 9px 12px;
-  border-radius: 15px;
+.search-input {
   border: none;
+  border-radius: 999px;
+  padding: 8px 16px;
+  font-size: 1rem;
   outline: none;
-  font-size: 0.9rem;
-  color: #333;
+  width: 230px;
 }
 
-.header__cart-button {
-  background: none;
-  border: none;
-  color: white;
+.cart-button {
+  background-color: #000;
+  color: #ea82b9;
   cursor: pointer;
-  margin-left: 1rem;
-  /* margin-right: -20rem; */
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  transition: background 0.2s, color 0.2s;
+  margin-right: -5rem;
+  margin-left: 5rem;
+  border: none;
 }
 
-/* === Mobile Adjustments === */
-@media (max-width: 480px) {
-  .header__top-row {
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    gap: 0.5rem;
-  }
-
-  .header__logo {
-    font-weight: bold;
-    font-size: 1.2rem;
-    flex-basis: 100%;
-  }
-
-  .header__nav {
-    flex-wrap: wrap;
-    gap: 0.75rem;
-  }
-
-  .header__search-container {
-    width: 100%;
-  }
-
-  .header__search {
-    width: 100%;
-  }
-
-  .header__cart-button {
-    margin-left: auto;
-  }
+.cart-button i {
+  font-family: "Font Awesome 6 Free", "FontAwesome", sans-serif !important;
+  font-weight: 900 !important;
+  font-size: 1.3rem;
+  color: inherit;
 }
 </style>

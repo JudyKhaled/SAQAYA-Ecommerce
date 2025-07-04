@@ -1,9 +1,5 @@
 <template>
   <div class="products-view">
-    <center>
-      <h1 style="font-size: 5rem; color: #01013f">Products</h1>
-    </center>
-
     <div v-if="loading">Loading products...</div>
 
     <div v-else class="products-view__grid">
@@ -63,12 +59,13 @@ export default {
 <style scoped>
 .products-view {
   padding: 2rem;
+  background: linear-gradient(135deg, #031b34, #0288d1);
 }
 
 .products-view__grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
   gap: 1rem;
-  margin-top: 2rem;
+  margin-top: 4rem;
 }
 </style>
