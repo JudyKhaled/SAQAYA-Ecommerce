@@ -10,16 +10,19 @@
       <div class="footer__socials">
         <span>Get social</span>
         <a href="https://twitter.com" target="_blank" rel="noopener">Twitter</a>
-        <a href="https://facebook.com" target="_blank" rel="noopener">Facebook</a>
-        <a href="https://instagram.com" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://facebook.com" target="_blank" rel="noopener"
+          >Facebook</a
+        >
+        <a href="https://instagram.com" target="_blank" rel="noopener"
+          >Instagram</a
+        >
       </div>
     </div>
     <p class="footer__copy">© All Rights Reserved 2025</p>
   </footer>
 </template>
 
-<script setup lang="ts">
-</script>
+<script setup lang="ts"></script>
 
 <style scoped>
 .footer {

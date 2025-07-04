@@ -50,12 +50,7 @@ const props = defineProps<{
   hovered: boolean;
 }>();
 
-defineEmits([
-  "hover",
-  "view-product",
-  "add-to-cart",
-  "remove-from-cart",
-]);
+defineEmits(["hover", "view-product", "add-to-cart", "remove-from-cart"]);
 </script>
 
 <style scoped>

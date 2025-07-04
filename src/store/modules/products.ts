@@ -6,6 +6,7 @@ interface Product {
   price: number;
   image: string;
 }
+
 interface ProductsState {
   products: Product[];
   loading: boolean;
@@ -17,8 +18,8 @@ export const useProductsStore = defineStore("products", {
     loading: false,
   }),
   getters: {
-    products: (state) => state.products,
-    loading: (state) => state.loading,
+    allProducts: (state) => state.products,
+    isLoading: (state) => state.loading,
   },
   actions: {
     async fetchProducts() {
@@ -35,4 +36,3 @@ export const useProductsStore = defineStore("products", {
     },
   },
 });
-
