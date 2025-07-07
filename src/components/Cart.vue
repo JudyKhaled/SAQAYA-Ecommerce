@@ -1,37 +1,54 @@
 <!-- eslint-disable -->
 <template>
-  <div :class="['cart', { 'cart--open': isOpen }]">
-    <div class="cart__content">
-      <div class="cart__header">
-        <h2 class="cart__title">My Cart</h2>
-        <button class="cart__close" @click="$emit('close')">&times;</button>
-      </div>
+  <div>
+    <div v-if="isOpen" class="cart-backdrop" @click="$emit('close')"></div>
+    <div :class="['cart', { 'cart--open': isOpen }]">
+      <div class="cart__content">
+        <div class="cart__header">
+          <h2 class="cart__title">YOUR CART</h2>
+          <button class="cart__close" @click="$emit('close')">&times;</button>
+        </div>
 
-      <div v-if="cartItems.length === 0" class="cart__empty">
-        <p>No items in cart</p>
-      </div>
+        <div v-if="cartItems.length === 0" class="cart__empty">
+          <p>YOUR CART IS EMPTY</p>
+        </div>
 
-      <ul v-else class="cart__list">
-        <li v-for="(item, index) in cartItems" :key="index" class="cart__item">
-          <img :src="item.image" :alt="item.title" class="cart__item-image" />
-          <div class="cart__item-info">
-            <h4 class="cart__item-title">{{ item.title }}</h4>
-            <p class="cart__item-price">
-              ${{ item.price.toFixed(2) }} × {{ item.quantity }}
-            </p>
+        <ul v-else class="cart__list">
+          <li
+            v-for="(item, index) in cartItems"
+            :key="index"
+            class="cart__item"
+          >
+            <img :src="item.image" :alt="item.title" class="cart__item-image" />
 
-            <div class="cart__qty-controls">
-              <button @click="$emit('remove-from-cart', item.id)">−</button>
-              <span>{{ item.quantity }}</span>
-              <button @click="$emit('add-to-cart', item)">+</button>
+            <div class="cart__item-info">
+              <div class="cart__item-header">
+                <h4 class="cart__item-title">{{ item.title }}</h4>
+                <button
+                  class="cart__remove-btn"
+                  @click="$emit('delete-from-cart', item.id)"
+                >
+                  <i class="fa fa-trash"></i>
+                </button>
+              </div>
+
+              <div class="cart__item-price">
+                ${{ (item.price * item.quantity).toFixed(2) }}
+              </div>
+
+              <div class="cart__qty-controls">
+                <button @click="$emit('remove-from-cart', item.id)">−</button>
+                <span>{{ item.quantity }}</span>
+                <button @click="$emit('add-to-cart', item)">+</button>
+              </div>
             </div>
-          </div>
-        </li>
-      </ul>
+          </li>
+        </ul>
 
-      <div v-if="cartItems.length > 0" class="cart__footer">
-        <p class="cart__total">Total: ${{ cartTotal.toFixed(2) }}</p>
-        <button class="cart__checkout" @click="checkout">Checkout</button>
+        <div v-if="cartItems.length > 0" class="cart__footer">
+          <p class="cart__total">Total: ${{ cartTotal.toFixed(2) }}</p>
+          <button class="cart__checkout" @click="checkout">CHECKOUT</button>
+        </div>
       </div>
     </div>
   </div>
@@ -41,14 +58,13 @@
 import { computed, defineProps, defineEmits } from "vue";
 import { useCartItemsStore } from "@/store/modules/cartItems";
 
-const props = defineProps<{
-  isOpen: boolean;
-}>();
+const props = defineProps<{ isOpen: boolean }>();
 
 const emit = defineEmits<{
   (e: "close"): void;
   (e: "add-to-cart", product: any): void;
   (e: "remove-from-cart", id: number): void;
+  (e: "delete-from-cart", id: number): void;
 }>();
 
 const cartStore = useCartItemsStore();
@@ -61,18 +77,42 @@ function checkout() {
 </script>
 
 <style scoped>
+@font-face {
+  font-family: "Lulo Clean One";
+  src: url("@/assets/fonts/Lulo Clean One.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "SANS";
+  src: url("@/assets/fonts/OpenSans-Light.ttf") format("opentype");
+}
+
+@font-face {
+  font-family: "Bubble Rainbow";
+  src: url("@/assets/fonts/Bubble Rainbow.ttf") format("opentype");
+}
+
+.cart-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+}
+
 .cart {
   position: fixed;
-  top: 70px;
+  top: 10px;
+  bottom: 10px;
   right: 0;
-  width: 300px;
-  height: calc(100vh - 70px);
-  background-color: #01013f;
-  color: #fff;
-  z-index: 1000;
-  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.2);
+  width: 570px;
+  background-color: #ffffff;
+  color: #000;
+  z-index: 1001;
+  box-shadow: -5px 0 20px rgba(0, 0, 0, 0.2);
+  border-radius: 20px;
   transform: translateX(100%);
-  transition: transform 0.5s ease;
+  transition: transform 0.4s ease;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
 }
@@ -90,29 +130,42 @@ function checkout() {
 }
 
 .cart__header {
+  position: relative;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: center;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #ddd;
   margin-bottom: 1rem;
 }
 
 .cart__title {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
+  font-weight: bold;
   margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-family: Lulo Clean One;
 }
 
 .cart__close {
+  position: absolute;
+  right: 20px;
+  font-size: 30px;
   background: none;
   border: none;
-  font-size: 1.8rem;
-  color: #ea82b9;
+  color: #494646;
   cursor: pointer;
 }
 
 .cart__empty {
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   color: #999;
-  margin-top: 2rem;
+  height: 80%;
+  font-family: Lulo Clean One;
+  font-size: 1rem;
 }
 
 .cart__list {
@@ -124,57 +177,93 @@ function checkout() {
 
 .cart__item {
   display: flex;
-  gap: 10px;
-  margin-bottom: 15px;
+  gap: 16px;
+  margin-bottom: 25px;
+  align-items: flex-start;
 }
 
 .cart__item-image {
-  width: 50px;
-  height: 50px;
+  width: 80px;
+  height: 90px;
   object-fit: cover;
-  border-radius: 6px;
+  border-radius: 8px;
 }
 
 .cart__item-info {
   flex-grow: 1;
+  position: relative;
+}
+
+.cart__item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .cart__item-title {
-  font-size: 0.9rem;
+  font-size: 1.3rem;
   margin: 0;
-  color: #fff;
+  color: #000;
+  font-weight: 600;
+  font-family: "SANS";
+}
+
+.cart__remove-btn {
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  cursor: pointer;
+  color: #444;
+  margin-left: auto;
 }
 
 .cart__item-price {
-  font-size: 0.85rem;
+  font-size: 1.1rem;
   color: #ea82b9;
+  font-weight: bold;
+  margin-top: 0.6rem;
 }
 
 .cart__qty-controls {
   display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-top: 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  overflow: hidden;
+  font-size: 1rem;
+  height: 32px;
+  width: fit-content;
+  margin-top: 8px;
 }
 
 .cart__qty-controls button {
-  background-color: #ea82b9;
+  background: white;
   border: none;
-  color: white;
-  font-size: 1rem;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
+  border-right: 1px solid #ccc;
+  width: 48px;
+  height: 100%;
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #333;
   cursor: pointer;
-  padding: 0;
-  text-align: center;
-  line-height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .cart__qty-controls span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 100%;
   font-weight: bold;
-  min-width: 20px;
-  text-align: center;
+  font-size: 1.2rem;
+  border-right: 1px solid #ccc;
+  color: #000;
+}
+
+.cart__qty-controls button:last-child {
+  border-right: none;
 }
 
 .cart__footer {
@@ -186,15 +275,18 @@ function checkout() {
 .cart__total {
   font-weight: bold;
   margin-bottom: 0.8rem;
+  font-size: 1.1rem;
 }
 
 .cart__checkout {
   width: 100%;
-  background: #454545;
+  background: black;
   color: white;
   border: none;
-  padding: 0.6rem;
-  border-radius: 5px;
+  padding: 0.8rem;
+  border-radius: 25px;
   cursor: pointer;
+  font-size: 1.3rem;
+  font-family: "Bubble Rainbow";
 }
 </style>

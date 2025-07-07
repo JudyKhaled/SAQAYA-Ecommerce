@@ -6,6 +6,7 @@
         :cartItems="cartItems"
         @add-to-cart="addToCart"
         @remove-from-cart="removeFromCart"
+        @open-cart="cartOpen = true"
       />
       <Cart
         :isOpen="cartOpen"
@@ -13,6 +14,7 @@
         @close="toggleCart"
         @add-to-cart="addToCart"
         @remove-from-cart="removeFromCart"
+        @delete-from-cart="cartStore.deleteFromCart"
       />
     </main>
     <BaseFooter />

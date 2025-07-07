@@ -54,6 +54,33 @@ defineEmits(["hover", "view-product", "add-to-cart", "remove-from-cart"]);
 </script>
 
 <style scoped>
+@font-face {
+  font-family: "Lulo Clean One";
+  src: url("@/assets/fonts/Lulo Clean One.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Lulo Clean One Bold";
+  src: url("@/assets/fonts/Lulo Clean One Bold.otf") format("opentype");
+  font-weight: bold;
+  font-style: normal;
+}
+
+.products-view__card,
+.products-view__card--hovered,
+.products-view__card-content,
+.products-view__title,
+.products-view__price {
+  font-family: "Lulo Clean One", Arial, sans-serif;
+}
+
+.products-view__price {
+  font-family: "Lulo Clean One Bold", "Lulo Clean One", Arial, sans-serif;
+  font-weight: bold;
+}
+
 .products-view__card,
 .products-view__card--hovered {
   border: 1px solid #ddd;
@@ -70,7 +97,7 @@ defineEmits(["hover", "view-product", "add-to-cart", "remove-from-cart"]);
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  min-height: 450px;
+  min-height: 500px;
   transition: box-shadow 0.3s ease, transform 0.3s ease;
   box-shadow: 0 4px 24px rgba(100, 100, 100, 0.18) !important;
   z-index: 2;
@@ -100,7 +127,7 @@ defineEmits(["hover", "view-product", "add-to-cart", "remove-from-cart"]);
 
 .products-view__title {
   font-size: 1rem;
-  margin: 0.5rem 0;
+  margin: 1.5rem 0;
   min-height: 2.5em;
 }
 
@@ -110,7 +137,7 @@ defineEmits(["hover", "view-product", "add-to-cart", "remove-from-cart"]);
   color: #333;
   position: absolute;
   left: 50%;
-  top: 350px;
+  top: 400px;
   transform: translateX(-50%);
   z-index: 2;
   background: white;

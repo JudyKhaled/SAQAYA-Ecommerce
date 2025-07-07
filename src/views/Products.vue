@@ -9,7 +9,12 @@
         :product="product"
         :isInCart="isInCart(product.id)"
         :hovered="hoveredProduct === product.id"
-        @add-to-cart="cartStore.addToCart"
+        @add-to-cart="
+          (p) => {
+            cartStore.addToCart(p);
+            $emit && $emit('open-cart');
+          }
+        "
         @remove-from-cart="cartStore.removeFromCart"
         @hover="hoveredProduct = $event"
         @click="goToProduct(product)"
@@ -59,7 +64,7 @@ export default {
 <style scoped>
 .products-view {
   padding: 2rem;
-  background: linear-gradient(135deg, #031b34, #0288d1);
+  background-color: #041e3a;
 }
 
 .products-view__grid {

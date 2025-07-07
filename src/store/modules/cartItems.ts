@@ -10,11 +10,13 @@ interface CartItem {
 
 export interface CartState {
   cart: CartItem[];
+  isCartOpen: boolean;
 }
 
 export const useCartItemsStore = defineStore("cartItems", {
   state: (): CartState => ({
     cart: [],
+    isCartOpen: false,
   }),
 
   getters: {
@@ -27,12 +29,15 @@ export const useCartItemsStore = defineStore("cartItems", {
     addToCart(product: CartItem) {
       const existing = this.cart.find((item) => item.id === product.id);
       if (existing) {
-        existing.quantity++;
+        existing.quantity += 1;
       } else {
-        this.cart.push({ ...product, quantity: 1 });
+        this.cart.push({
+          ...product,
+          quantity:
+            product.quantity && product.quantity > 0 ? product.quantity : 1,
+        });
       }
     },
-
     removeFromCart(productId: number) {
       const item = this.cart.find((item) => item.id === productId);
       if (item && item.quantity > 1) {
@@ -41,9 +46,17 @@ export const useCartItemsStore = defineStore("cartItems", {
         this.cart = this.cart.filter((item) => item.id !== productId);
       }
     },
-
+    deleteFromCart(productId: number) {
+      this.cart = this.cart.filter((item) => item.id !== productId);
+    },
     clearCart() {
       this.cart = [];
+    },
+    openCart() {
+      this.isCartOpen = true;
+    },
+    closeCart() {
+      this.isCartOpen = false;
     },
   },
 });
