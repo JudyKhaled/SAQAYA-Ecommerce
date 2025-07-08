@@ -1,11 +1,16 @@
 module.exports = {
   preset: '@vue/cli-plugin-unit-jest/presets/typescript-and-babel',
-  moduleNameMapper: {
-    '^@/(.*)$': '<rootDir>/src/$1',
-  },
-  moduleFileExtensions: ['js', 'jsx', 'json', 'vue', 'ts', 'tsx'],
   transform: {
     '^.+\\.vue$': '@vue/vue3-jest',
-    '^.+\\.[tj]sx?$': 'babel-jest',
+    '^.+\\.ts$': 'ts-jest',
+    '^.+\\.[jt]sx?$': 'babel-jest',
   },
+  moduleNameMapper: {
+    '\\.(css|less|scss|sass)$': '<rootDir>/tests/unit/__mocks__/emptyStyleMock.js',
+    '^@/(.*)$': '<rootDir>/src/$1',
+    '^@fortawesome/fontawesome-free/css/all.min.css$': '<rootDir>/tests/unit/__mocks__/emptyStyleMock.js',
+  },
+  transformIgnorePatterns: [
+    '/node_modules/(?!(@fortawesome)/)',
+  ],
 };

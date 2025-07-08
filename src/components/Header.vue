@@ -4,7 +4,9 @@
 <template>
   <header class="header">
     <div class="nav-container">
-      <img src="@/assets/imgs/logo.png" alt="Logo" class="logo" />
+      <router-link to="/">
+        <img src="@/assets/imgs/logo.png" alt="Logo" class="logo" />
+      </router-link>
 
       <nav class="nav-links">
         <router-link to="/" exact-active-class="active">Home</router-link>
