@@ -60,6 +60,11 @@ export default { name: "ContactForm" };
   src: url("@/assets/fonts/OpenSans-Light.ttf") format("truetype");
 }
 
+@font-face {
+  font-family: "Lulo";
+  src: url("@/assets/fonts/Lulo Clean One.otf") format("truetype");
+}
+
 .contact-container {
   display: flex;
   flex-wrap: wrap;
@@ -67,7 +72,7 @@ export default { name: "ContactForm" };
   padding: 90px 10px;
   max-width: 1500px;
   margin: auto;
-  font-family: "SANS", sans-serif;
+  font-family: "SANS";
 }
 
 .contact-left {
@@ -75,7 +80,7 @@ export default { name: "ContactForm" };
 }
 
 .contact-left h1 {
-  font-size: 4rem;
+  font-size: 4.3rem;
   line-height: 1.4;
   margin-bottom: 20px;
   color: #fff;
@@ -89,7 +94,7 @@ export default { name: "ContactForm" };
   flex-direction: column;
   gap: 50px;
   color: #fff;
-  margin-top: 40px;
+  margin-top: 90px;
   margin-left: 70px;
   max-width: 600px;
 }
@@ -132,6 +137,6 @@ export default { name: "ContactForm" };
 }
 
 .contact-form button:hover {
-  background-color: #fff;
+  background-color: #000;
 }
 </style>

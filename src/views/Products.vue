@@ -1,5 +1,6 @@
 <template>
   <div class="products-view">
+    <SortDropdown v-model="productsStore.sortOrder" />
     <div v-if="loading">Loading products...</div>
 
     <div v-else class="products-view__grid">
@@ -30,6 +31,7 @@ import { useCartItemsStore } from "@/store/modules/cartItems";
 import { useSelectedProductStore } from "@/store/modules/selectedProduct";
 import { useRouter } from "vue-router";
 import ProductCard from "@/components/ProductCard.vue";
+import SortDropdown from "@/components/SortDropdown.vue";
 
 const productsStore = useProductsStore();
 const cartStore = useCartItemsStore();
@@ -50,7 +52,7 @@ const goToProduct = (product: any) => {
   router.push({ name: "ProductDetails", params: { id: product.id } });
 };
 
-const products = computed(() => productsStore.products);
+const products = computed(() => productsStore.filteredProducts);
 const loading = computed(() => productsStore.loading);
 const cartItems = computed(() => cartStore.cartItems);
 </script>

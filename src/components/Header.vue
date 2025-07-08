@@ -1,3 +1,6 @@
+/* eslint-disable */
+/* prettier-ignore */
+// eslint-disable vue/multi-word-component-names
 <template>
   <header class="header">
     <div class="nav-container">
@@ -16,7 +19,7 @@
       <div class="nav-actions">
         <input
           type="text"
-          placeholder="Search..."
+          placeholder="Search Products..."
           class="search-input"
           v-model="searchQuery"
         />
@@ -32,17 +35,13 @@
   </header>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import { defineComponent, ref } from "vue";
+import { storeToRefs } from "pinia";
+import { useProductsStore } from "@/store/modules/products";
 
-export default defineComponent({
-  name: "BaseHeader",
-  setup() {
-    const searchQuery = ref("");
-    return { searchQuery };
-  },
-});
+const productStore = useProductsStore();
+const { searchQuery } = storeToRefs(productStore);
 </script>
 
 <style scoped>

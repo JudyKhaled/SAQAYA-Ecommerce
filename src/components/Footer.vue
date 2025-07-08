@@ -5,7 +5,6 @@
       <div class="footer__links">
         <router-link to="/about">About Us</router-link>
         <router-link to="/contact">Contact Us</router-link>
-        <p>Collections</p>
       </div>
       <div class="footer__socials">
         <span>Get social</span>
@@ -68,7 +67,6 @@
   margin-top: 10px;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
   .footer__content {
     flex-direction: column;
