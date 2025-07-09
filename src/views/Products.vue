@@ -75,4 +75,38 @@ export default {
   gap: 1rem;
   margin-top: 4rem;
 }
+
+@media (max-width: 1024px) {
+  .products-view {
+    padding: 1.5rem;
+  }
+
+  .products-view__grid {
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .products-view {
+    padding: 1rem;
+  }
+
+  .products-view__grid {
+    grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
+    gap: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .products-view {
+    padding: 0.75rem;
+  }
+
+  .products-view__grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+}
 </style>

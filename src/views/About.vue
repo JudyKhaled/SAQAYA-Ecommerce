@@ -19,7 +19,6 @@
 </template>
 
 <script setup lang="ts">
-// No logic needed for static About Us view
 </script>
 
 <style scoped>
@@ -45,5 +44,53 @@
   font-size: 1.2rem;
   margin-bottom: 1.2rem;
   line-height: 1.7;
+}
+
+@media (max-width: 1024px) {
+  .about-view {
+    margin: 100px auto 0 auto;
+    padding: 32px;
+  }
+
+  .about-view h1 {
+    font-size: 2rem;
+  }
+
+  .about-view p {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .about-view {
+    margin: 80px 16px 0 16px;
+    padding: 24px;
+    border-radius: 16px;
+  }
+
+  .about-view h1 {
+    font-size: 1.75rem;
+    text-align: center;
+  }
+
+  .about-view p {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .about-view {
+    margin: 60px 12px 0 12px;
+    padding: 20px;
+  }
+
+  .about-view h1 {
+    font-size: 1.5rem;
+  }
+
+  .about-view p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
 }
 </style>

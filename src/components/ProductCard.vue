@@ -172,4 +172,75 @@ defineEmits(["hover", "view-product", "add-to-cart", "remove-from-cart"]);
   background: none;
   transform: scale(1.12);
 }
+
+@media (max-width: 1024px) {
+  .products-view__card,
+  .products-view__card--hovered {
+    width: 100%;
+    min-width: unset;
+    padding: 2rem 1.5rem;
+    min-height: 450px;
+  }
+
+  .products-view__image {
+    height: 180px;
+  }
+
+  .products-view__price {
+    top: 370px;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .products-view__card,
+  .products-view__card--hovered {
+    padding: 1.5rem 1rem;
+    min-height: 420px;
+  }
+
+  .products-view__image {
+    height: 160px;
+  }
+
+  .products-view__title {
+    font-size: 0.95rem;
+    margin: 1rem 0;
+  }
+
+  .products-view__price {
+    top: 340px;
+    font-size: 0.95rem;
+  }
+
+  .products-view__cart-icon-btn {
+    font-size: 1.5rem;
+    padding: 0.3rem 0.6rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .products-view__card,
+  .products-view__card--hovered {
+    padding: 1rem;
+    min-height: 400px;
+  }
+
+  .products-view__image {
+    height: 140px;
+  }
+
+  .products-view__title {
+    font-size: 0.9rem;
+  }
+
+  .products-view__price {
+    top: 310px;
+    font-size: 0.9rem;
+  }
+
+  .products-view__cart-icon-btn {
+    font-size: 1.4rem;
+  }
+}
 </style>

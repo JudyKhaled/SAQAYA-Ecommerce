@@ -156,4 +156,60 @@ onBeforeUnmount(() => {
 .shop-btn:hover::after {
   transform: scaleX(1);
 }
+
+@media (max-width: 1024px) {
+  .slider-text {
+    max-width: 400px;
+    left: 8%;
+    padding: 1rem 1.5rem;
+  }
+
+  .headline {
+    font-size: 2.6rem;
+    margin-left: 10px;
+  }
+
+  .shop-btn {
+    font-size: 1.5rem;
+    padding: 0.9rem 4rem;
+    margin-top: 3rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .slider-text {
+    max-width: 90%;
+    left: 50%;
+    top: 60%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    padding: 1rem;
+  }
+
+  .headline {
+    font-size: 2rem;
+    margin: 0 auto 1rem;
+  }
+
+  .shop-btn {
+    font-size: 1.3rem;
+    padding: 0.8rem 3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .headline {
+    font-size: 1.6rem;
+    line-height: 1.4;
+  }
+
+  .shop-btn {
+    font-size: 1.1rem;
+    padding: 0.7rem 2.5rem;
+  }
+
+  .slider-text {
+    top: 55%;
+  }
+}
 </style>

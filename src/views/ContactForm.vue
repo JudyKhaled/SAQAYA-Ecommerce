@@ -139,4 +139,82 @@ export default { name: "ContactForm" };
 .contact-form button:hover {
   background-color: #000;
 }
+
+@media (max-width: 1024px) {
+  .contact-left h1 {
+    font-size: 3.5rem;
+    margin-top: 40px;
+  }
+
+  .contact-form {
+    margin-left: 40px;
+    gap: 40px;
+  }
+
+  .contact-form input {
+    font-size: 1.1rem;
+  }
+
+  .contact-form button {
+    font-size: 1.5rem;
+    min-height: 60px;
+  }
+}
+
+@media (max-width: 768px) {
+  .contact-container {
+    flex-direction: column;
+    padding: 60px 20px;
+    gap: 30px;
+  }
+
+  .contact-left,
+  .contact-form {
+    flex: 1 1 100%;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+
+  .contact-left h1 {
+    font-size: 2.5rem;
+    text-align: center;
+    margin: 0;
+  }
+
+  .contact-form {
+    margin-top: 40px;
+    margin-left: 0;
+    padding: 0 10px;
+    gap: 30px;
+  }
+
+  .contact-form input {
+    font-size: 1rem;
+  }
+
+  .contact-form button {
+    font-size: 1.3rem;
+    min-height: 55px;
+  }
+}
+
+@media (max-width: 480px) {
+  .contact-left h1 {
+    font-size: 2rem;
+    text-align: center;
+  }
+
+  .contact-form {
+    gap: 25px;
+  }
+
+  .contact-form input {
+    font-size: 0.95rem;
+  }
+
+  .contact-form button {
+    font-size: 1.2rem;
+    min-height: 50px;
+  }
+}
 </style>
